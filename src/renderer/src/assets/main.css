@@ -1,0 +1,134 @@
+/* 亮色为默认；暗色通过 prefers-color-scheme（system 模式）或 [data-theme] 覆盖 */
+:root {
+  --color-bg: #ffffff;
+  --color-sidebar-bg: #f5f6f8;
+  --color-editor-bg: #ffffff;
+  --color-border: #e2e4e8;
+  --color-text: #1f2328;
+  --color-text-muted: #6b7280;
+  --color-accent: #2563eb;
+  --color-code-bg: #f6f8fa;
+  --color-quote: #57606a;
+  /* highlight.js token 配色（亮色 / atom-one-light 风格） */
+  --hl-keyword: #a626a4;
+  --hl-string: #3a8a2e;
+  --hl-number: #b76b01;
+  --hl-title: #4078f2;
+  --hl-attr: #e45649;
+  --hl-built: #c18401;
+  /* 滚动条（亮色：冷灰，hover 时偏蓝） */
+  --scrollbar-size: 8px;
+  --scrollbar-track: transparent;
+  --scrollbar-thumb: rgba(31, 35, 40, 0.22);
+  --scrollbar-thumb-hover: rgba(37, 99, 235, 0.55);
+}
+
+/* 暗色变量（atom-one-dark 风格 token 配色） */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --color-bg: #1e1e1e;
+    --color-sidebar-bg: #252526;
+    --color-editor-bg: #1e1e1e;
+    --color-border: #333333;
+    --color-text: #e6e6e6;
+    --color-text-muted: #9ca3af;
+    --color-accent: #4a8cff;
+    --color-code-bg: #2a2a2a;
+    --color-quote: #9ca3af;
+    --hl-keyword: #c678dd;
+    --hl-string: #98c379;
+    --hl-number: #d19a66;
+    --hl-title: #61afef;
+    --hl-attr: #e06c75;
+    --hl-built: #e5c07b;
+    /* 滚动条（暗色：暖白，hover 时偏亮蓝） */
+    --scrollbar-thumb: rgba(230, 230, 230, 0.2);
+    --scrollbar-thumb-hover: rgba(74, 140, 255, 0.6);
+  }
+}
+:root[data-theme='dark'] {
+  --color-bg: #1e1e1e;
+  --color-sidebar-bg: #252526;
+  --color-editor-bg: #1e1e1e;
+  --color-border: #333333;
+  --color-text: #e6e6e6;
+  --color-text-muted: #9ca3af;
+  --color-accent: #4a8cff;
+  --color-code-bg: #2a2a2a;
+  --color-quote: #9ca3af;
+  --hl-keyword: #c678dd;
+  --hl-string: #98c379;
+  --hl-number: #d19a66;
+  --hl-title: #61afef;
+  --hl-attr: #e06c75;
+  --hl-built: #e5c07b;
+  /* 滚动条（暗色：暖白，hover 时偏亮蓝） */
+  --scrollbar-thumb: rgba(230, 230, 230, 0.2);
+  --scrollbar-thumb-hover: rgba(74, 140, 255, 0.6);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', Roboto, Helvetica, Arial,
+    sans-serif;
+  color: var(--color-text);
+  background: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+#app {
+  height: 100%;
+}
+
+/* ---- 滚动条美化（随主题色风格变化，窄、圆角、无上下箭头按钮） ----
+   仅用 ::-webkit-scrollbar 系列：Chromium 121+ 若设置标准的 scrollbar-width/
+   scrollbar-color 会反而停用这些伪元素，故此处不设标准属性。 */
+::-webkit-scrollbar {
+  width: var(--scrollbar-size);
+  height: var(--scrollbar-size);
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 999px;
+  /* 透明边框收窄实际可见宽度，让滑块更纤细 */
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  transition: background-color 0.15s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: var(--scrollbar-thumb-hover);
+  background-clip: padding-box;
+}
+
+/* 去掉上下箭头按钮及拐角 */
+::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}

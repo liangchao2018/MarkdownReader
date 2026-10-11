@@ -1,0 +1,58 @@
+appId: com.markdownreader.app
+productName: Markdown Reader
+copyright: Copyright © 2026
+
+# 直接使用本地已安装的 electron，跳过 @electron/get 的「下载→解压→改名」
+# （该改名步骤在开启实时杀软的 Windows 上会 EPERM 失败）。版本随 devDependencies 中的 electron。
+electronDist: node_modules/electron/dist
+
+directories:
+  buildResources: build
+  output: dist
+
+# 仅打包构建产物与运行时依赖；源码、配置、类型工程一律排除
+files:
+  - out/**
+  - package.json
+  - '!**/.vscode/*'
+  - '!src/*'
+  - '!electron.vite.config.{js,ts,mjs,cjs}'
+  - '!{.gitignore,.npmrc,.prettierrc,.editorconfig}'
+  - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json,DEVELOPMENT_PLAN.md}'
+
+# 把工作区内本地资源以自定义协议读取，无需 asar 解包
+asar: true
+
+# 安装时把 Markdown 扩展名关联到本应用（NSIS 写入注册表 ProgId）。
+# 注意：Win10/11 出于安全不允许安装器静默强占「默认打开方式」——
+# 此处会把本应用注册为可选/默认处理程序；若该扩展此前已有默认程序，
+# 系统首次仍会弹「选择打开方式」由用户确认一次。
+fileAssociations:
+  - ext: md
+    name: Markdown Document
+    description: Markdown Document
+    role: Editor
+  - ext: markdown
+    name: Markdown Document
+    description: Markdown Document
+    role: Editor
+
+win:
+  target:
+    - nsis
+  executableName: markdown-reader
+  artifactName: ${productName}-${version}-setup.${ext}
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: ${productName}
+  uninstallDisplayName: ${productName}
+
+# 不做代码签名（未配置证书），生成未签名安装包
+electronLanguages:
+  - zh-CN
+  - en-US
